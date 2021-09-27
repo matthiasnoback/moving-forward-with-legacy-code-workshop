@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+    web:
+        build: docker/web/
+        image: matthiasnoback/moving-forward-with-legacy-code-workshop-web
+        volumes:
+            - ./:/app
+        ports:
+            # Development server
+            - "8080:8080"
+            # Testing server
+#            - "9080:9080"
+        expose:
+            - 8080
+            - 9080
+        user: ${HOST_UID}:${HOST_GID}
+        env_file:
+            - .env
+
+    php:
+        build: docker/php/
+        image: matthiasnoback/moving-forward-with-legacy-code-workshop-php
+        volumes:
+            - ./:/app
+        environment:
+            WEB_HOSTNAME: web
+        depends_on:
+            - web
+        working_dir: /app
+        user: ${HOST_UID}:${HOST_GID}
+        env_file:
+            - .env
+        init: true
+
+    composer:
+        image: composer:latest
+        volumes:
+            - ./:/app
+        user: ${HOST_UID}:${HOST_GID}
+        env_file:
+            - .env
