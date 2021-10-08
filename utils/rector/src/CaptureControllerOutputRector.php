@@ -47,22 +47,20 @@ final class CaptureControllerOutputRector extends AbstractRector
             return null;
         }
 
-        // Change the return type to the return type of Output::capture()
-        // @TODO can we actually copy the return type?
-        $node->returnType = new Identifier('string');
+        $outputCaptureCall = new StaticCall(
+            new FullyQualified(Output::class),
+            new Identifier('capture'),  // Output::capture()
+            [
+                new Arg(new Closure([ // function (): void {}
+                    'stmts' => $node->stmts, // existing statements in this controller method,
+                    'returnType' => new Identifier('void')
+                ]))
+            ]
+        );
 
         $node->stmts = [
             new Return_( // return
-                new StaticCall(
-                    new FullyQualified(Output::class),
-                    new Identifier('capture'),  // Output::capture()
-                    [
-                        new Arg(new Closure([ // function (): void {}
-                            'stmts' => $node->stmts, // existing statements in this controller method,
-                            'returnType' => new Identifier('void')
-                        ]))
-                    ]
-                )
+                $outputCaptureCall // the result of calling Output::capture
             )
         ];
 

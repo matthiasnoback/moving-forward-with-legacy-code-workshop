@@ -7,7 +7,7 @@ use App\DB;
 
 final class IndexController
 {
-    public function doRun(): void
+    public function doRun()
     {
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 

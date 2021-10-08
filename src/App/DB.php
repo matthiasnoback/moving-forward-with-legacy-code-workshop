@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Assert\Assertion;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 
@@ -12,9 +13,11 @@ final class DB
 
     public static function importFile(string $filePathname): void
     {
+        Assertion::file($filePathname);
         $sql = file_get_contents($filePathname);
+
         $queries = array_filter(
-            array_map('trim', explode(';', $sql))
+            array_map('trim', explode(';', $sql ?: ''))
         );
         foreach ($queries as $query) {
             self::connection()->executeQuery($query);

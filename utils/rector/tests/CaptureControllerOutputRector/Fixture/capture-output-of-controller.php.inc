@@ -2,7 +2,7 @@
 
 class SomeController
 {
-    public function someAction(): void
+    public function someAction()
     {
         echo 'Hello, world!';
     }
