@@ -11,6 +11,8 @@ final class IndexController
     {
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 
+        header('Content-Type: text/html');
+
         echo "<p>Environment: $environment</p>";
 
         echo '<p>Hello, world!</p>';
@@ -19,5 +21,6 @@ final class IndexController
         foreach ($result->fetchAllAssociative() as $record) {
             var_dump($record);
         }
+        exit;
     }
 }

@@ -5,11 +5,16 @@ namespace App;
 
 final class Output
 {
-    public static function capture(callable $callable): string
+    /**
+     * @return array{string,array<string>}
+     */
+    public static function capture(callable $callable): array
     {
         ob_start();
 
-        $callable();
+        $headers = [];
+
+        $callable($headers);
 
         $output = ob_get_contents();
         if (!is_string($output)) {
@@ -18,6 +23,6 @@ final class Output
 
         ob_end_clean();
 
-        return $output;
+        return [$output, $headers];
     }
 }

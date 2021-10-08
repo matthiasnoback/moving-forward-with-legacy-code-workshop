@@ -5,19 +5,19 @@ class SomeController
     public function someAction(): void
     {
         echo 'Hello, world!';
+        exit;
     }
 }
 ?>
 -----
 <?php
 
-use App\Output;
 class SomeController
 {
-    public function someAction(): string
+    public function someAction(): void
     {
-        return Output::capture(function () : void {
-            echo 'Hello, world!';
-        });
+        echo 'Hello, world!';
+        return;
     }
 }
+?>
