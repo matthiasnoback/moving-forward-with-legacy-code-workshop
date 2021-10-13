@@ -36,6 +36,10 @@ final class CollectHeadersRector extends AbstractRector
             return null;
         }
 
+        if (!$node->args[0] instanceof Node\Arg) {
+            return null;
+        }
+
         return new Assign(
             new ArrayDimFetch(new Node\Expr\Variable('headers')),
             // We ignore additional arguments for now

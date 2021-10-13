@@ -42,6 +42,10 @@ final class CaptureControllerOutputRector extends AbstractRector
             return null;
         }
 
+        if ($node->stmts === null) {
+            return null;
+        }
+
         if ($node->stmts[0] instanceof Return_) {
             // The first statement is a return statement, we assume it doesn't need to be wrapped inside Output::capture()
             return null;
