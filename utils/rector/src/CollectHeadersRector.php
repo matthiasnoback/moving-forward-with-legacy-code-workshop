@@ -1,13 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Utils\Rector;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Param;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,26 +35,26 @@ final class CollectHeadersRector extends AbstractRector
         return $this->refactorClosure($node);
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition('Collect headers', []);
+    }
+
     private function refactorFuncCall(FuncCall $node): ?Assign
     {
-        if (!$this->isName($node, 'header')) {
+        if (! $this->isName($node, 'header')) {
             return null;
         }
 
-        if (!$node->args[0] instanceof Node\Arg) {
+        if (! $node->args[0] instanceof Arg) {
             return null;
         }
 
         return new Assign(
-            new ArrayDimFetch(new Node\Expr\Variable('headers')),
+            new ArrayDimFetch(new Variable('headers')),
             // We ignore additional arguments for now
             $node->args[0]->value
         );
-    }
-
-    public function getRuleDefinition(): RuleDefinition
-    {
-        return new RuleDefinition('Collect headers', []);
     }
 
     private function refactorClosure(Closure $node): ?Closure
@@ -59,12 +64,7 @@ final class CollectHeadersRector extends AbstractRector
             return null;
         }
 
-        $node->params[] = new Node\Param(
-            new Node\Expr\Variable('headers'),
-            null,
-            new Node\Identifier('array'),
-            true
-        );
+        $node->params[] = new Param(new Variable('headers'), null, new Identifier('array'), true);
 
         return $node;
     }

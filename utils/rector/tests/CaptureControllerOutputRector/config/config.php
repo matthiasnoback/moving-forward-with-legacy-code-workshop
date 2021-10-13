@@ -14,5 +14,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(CaptureControllerOutputRector::class);
     $services->set(ReturnTypeFromStrictTypedCallRector::class);
-
 };

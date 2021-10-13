@@ -1,9 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Utils\Rector;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\ClassMethod;
 use Psr\Http\Message\ServerRequestInterface;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
@@ -18,7 +23,7 @@ final class AddServerRequestArgumentRector extends AbstractRector
 
     public function getNodeTypes(): array
     {
-        return [Node\Stmt\ClassMethod::class];
+        return [ClassMethod::class];
     }
 
     /**
@@ -26,11 +31,11 @@ final class AddServerRequestArgumentRector extends AbstractRector
      */
     public function refactor(Node $node): ?Node
     {
-        if (!str_ends_with($node->getAttribute(AttributeKey::CLASS_NAME), 'Controller')) {
+        if (! str_ends_with($node->getAttribute(AttributeKey::CLASS_NAME), 'Controller')) {
             return null;
         }
 
-        if (!$node->isPublic()) {
+        if (! $node->isPublic()) {
             return null;
         }
 
@@ -40,10 +45,10 @@ final class AddServerRequestArgumentRector extends AbstractRector
             }
         }
 
-        $node->params[] = new Node\Param(
-            new Node\Expr\Variable('request'),
+        $node->params[] = new Param(
+            new Variable('request'),
             null,
-            new Node\Name\FullyQualified(ServerRequestInterface::class)
+            new FullyQualified(ServerRequestInterface::class)
         );
 
         return $node;

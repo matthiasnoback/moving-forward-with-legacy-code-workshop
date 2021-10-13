@@ -18,12 +18,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/public',
     ]);
 
-//    $containerConfigurator->import(SetList::CODE_QUALITY);
+    $parameters->set(Option::AUTO_IMPORT_NAMES, true);
 
     $services = $containerConfigurator->services();
-
-    $services->set(ReplaceExitWithReturnRector::class);
-    $services->set(CaptureControllerOutputRector::class);
-    $services->set(CollectHeadersRector::class);
-    $services->set(ReturnTypeFromStrictTypedCallRector::class);
+//
+//    $services->set(ReplaceExitWithReturnRector::class);
+//    $services->set(CaptureControllerOutputRector::class);
+//    $services->set(CollectHeadersRector::class);
+//    $services->set(ReturnTypeFromStrictTypedCallRector::class);
 };

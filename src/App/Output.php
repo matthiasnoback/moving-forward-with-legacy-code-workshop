@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App;
@@ -12,7 +13,7 @@ final class Output
         $callable();
 
         $output = ob_get_contents();
-        if (!is_string($output)) {
+        if (! is_string($output)) {
             $output = '';
         }
 

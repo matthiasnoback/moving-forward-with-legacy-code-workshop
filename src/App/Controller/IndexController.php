@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -13,7 +14,7 @@ final class IndexController
 
         header('Content-Type: text/html');
 
-        echo "<p>Environment: $environment</p>";
+        echo "<p>Environment: ${environment}</p>";
 
         echo '<p>Hello, world!</p>';
 

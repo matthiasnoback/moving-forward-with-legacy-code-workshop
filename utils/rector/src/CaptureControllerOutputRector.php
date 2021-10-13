@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Utils\Rector;
@@ -10,6 +11,7 @@ use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
@@ -24,9 +26,7 @@ final class CaptureControllerOutputRector extends AbstractRector
 
     public function getNodeTypes(): array
     {
-        return [
-            Node\Stmt\ClassMethod::class
-        ];
+        return [ClassMethod::class];
     }
 
     /**
@@ -34,11 +34,11 @@ final class CaptureControllerOutputRector extends AbstractRector
      */
     public function refactor(Node $node): ?Node
     {
-        if (!str_ends_with($node->getAttribute(AttributeKey::CLASS_NAME), 'Controller')) {
+        if (! str_ends_with($node->getAttribute(AttributeKey::CLASS_NAME), 'Controller')) {
             return null;
         }
 
-        if (!$node->isPublic()) {
+        if (! $node->isPublic()) {
             return null;
         }
 
@@ -55,17 +55,19 @@ final class CaptureControllerOutputRector extends AbstractRector
             new FullyQualified(Output::class),
             new Identifier('capture'),  // Output::capture()
             [
-                new Arg(new Closure([ // function (): void {}
-                    'stmts' => $node->stmts, // existing statements in this controller method,
-                    'returnType' => new Identifier('void')
-                ]))
+                new Arg(new Closure([
+                    // function (): void {}
+                    'stmts' => $node->stmts,
+                    // existing statements in this controller method,
+                    'returnType' => new Identifier('void'),
+                ])),
             ]
         );
 
         $node->stmts = [
             new Return_( // return
                 $outputCaptureCall // the result of calling Output::capture
-            )
+            ),
         ];
 
         return $node;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App;
@@ -16,9 +17,7 @@ final class DB
         Assertion::file($filePathname);
         $sql = file_get_contents($filePathname);
 
-        $queries = array_filter(
-            array_map('trim', explode(';', $sql ?: ''))
-        );
+        $queries = array_filter(array_map('trim', explode(';', $sql ?: '')));
         foreach ($queries as $query) {
             self::connection()->executeQuery($query);
         }
@@ -30,7 +29,7 @@ final class DB
             self::$connection = DriverManager::getConnection(
                 [
                     'driver' => 'pdo_sqlite',
-                    'path' => self::sqliteDbFile()
+                    'path' => self::sqliteDbFile(),
                 ]
             );
         }

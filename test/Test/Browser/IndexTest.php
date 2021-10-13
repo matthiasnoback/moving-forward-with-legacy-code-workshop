@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Test\Browser;
@@ -12,7 +13,11 @@ final class IndexTest extends PantherTestCase
 
     protected function setUp(): void
     {
-        $this->browser = self::createHttpBrowserClient(['env' => ['APPLICATION_ENV' => 'testing']]);
+        $this->browser = self::createHttpBrowserClient([
+            'env' => [
+                'APPLICATION_ENV' => 'testing',
+            ],
+        ]);
     }
 
     public function testHelloWorld(): void
