@@ -2,8 +2,6 @@
 
 set -eu
 
-docker-compose up -d
-
 docker-compose run --rm php vendor/bin/rector
 
 docker-compose run --rm php vendor/bin/ecs check --fix
