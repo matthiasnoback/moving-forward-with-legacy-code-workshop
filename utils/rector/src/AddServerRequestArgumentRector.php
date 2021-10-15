@@ -16,11 +16,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class AddServerRequestArgumentRector extends AbstractRector
 {
-    public function getRuleDefinition(): RuleDefinition
-    {
-        return new RuleDefinition('Add ServerRequestInterface argument to controller actions', []);
-    }
-
     public function getNodeTypes(): array
     {
         return [ClassMethod::class];
@@ -44,7 +39,6 @@ final class AddServerRequestArgumentRector extends AbstractRector
                 return null;
             }
         }
-
         $node->params[] = new Param(
             new Variable('request'),
             null,
@@ -52,5 +46,10 @@ final class AddServerRequestArgumentRector extends AbstractRector
         );
 
         return $node;
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition('Add ServerRequestInterface argument to controller actions', []);
     }
 }
