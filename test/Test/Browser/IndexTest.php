@@ -27,4 +27,14 @@ final class IndexTest extends PantherTestCase
         self::assertStringContainsString('Hello, world!', $responseText);
         self::assertStringContainsString('Environment: testing', $responseText);
     }
+
+    public function testHelloUser(): void
+    {
+        $this->browser->request('GET', '/');
+
+        $response = $this->browser->submitForm('Send', ['username' => 'user'], 'GET');
+
+        $responseText = $response->text();
+        self::assertStringContainsString('Hello, user!', $responseText);
+    }
 }

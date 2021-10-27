@@ -21,7 +21,8 @@
         "phpstan/phpstan-phpunit": "^0.12.22",
         "phpstan/phpstan-beberlei-assert": "^0.12.6",
         "symplify/easy-coding-standard": "^9.4",
-        "symplify/coding-standard": "^9.4"
+        "symplify/coding-standard": "^9.4",
+        "symfony/mime": "^5.3"
     },
     "require": {
         "php": "^8.0",
