@@ -32,7 +32,9 @@ final class IndexTest extends PantherTestCase
     {
         $this->browser->request('GET', '/');
 
-        $response = $this->browser->submitForm('Send', ['username' => 'user'], 'GET');
+        $response = $this->browser->submitForm('Send', [
+            'username' => 'user',
+        ], 'GET');
 
         $responseText = $response->text();
         self::assertStringContainsString('Hello, user!', $responseText);

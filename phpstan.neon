@@ -6,3 +6,7 @@ parameters:
     paths:
         - src
         - utils
+        - public
+        - rector.php
+        - ecs.php
+    reportUnmatchedIgnoredErrors: false

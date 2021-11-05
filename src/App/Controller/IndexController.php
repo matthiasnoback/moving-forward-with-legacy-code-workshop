@@ -14,9 +14,7 @@ final class IndexController
 
         header('Content-Type: text/html');
 
-        $username = $_GET['username'] ?? 'world';
-
-        ?><html lang="en">
+        $username = $_GET['username'] ?? 'world'; ?><html lang="en">
         <body>
         <p>Environment: <?php echo htmlspecialchars($environment, ENT_QUOTES); ?></p>
         <p>Hello, <?php echo htmlspecialchars($username, ENT_QUOTES); ?>!</p>
@@ -29,8 +27,7 @@ final class IndexController
         $result = DB::connection()->executeQuery('SELECT * FROM users');
         foreach ($result->fetchAllAssociative() as $record) {
             var_dump($record);
-        }
-        ?>
+        } ?>
         </body>
         </html>
         <?php

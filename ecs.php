@@ -7,10 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (
-    ContainerConfigurator $containerConfigurator
-): void {
-    $services = $containerConfigurator->services();
+return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(
         Option::PATHS,
@@ -18,6 +15,10 @@ return static function (
             __DIR__ . '/src',
             __DIR__ . '/test',
             __DIR__ . '/utils',
+            __DIR__ . '/public',
+            __DIR__ . '/rector.php',
+            __DIR__ . '/setup_db.php',
+            __DIR__ . '/ecs.php',
         ]
     );
 
