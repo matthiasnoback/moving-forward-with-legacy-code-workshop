@@ -12,4 +12,8 @@ Debug::enable();
 $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 
 $controller = new IndexController();
-echo $controller->doRun($request);
+list($body, $headers) = $controller->doRun($request);
+foreach ($headers as $key => $value) {
+    header($key . ': ' . $value);
+}
+echo $body;
