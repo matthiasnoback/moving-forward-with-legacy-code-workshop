@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DB;
+use App\Output;
 
 final class IndexController
 {
-    public function doRun()
+    public function doRun(): string
     {
+        return Output::capture(
+            function () {
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 
         header('Content-Type: text/html');
@@ -31,5 +34,6 @@ final class IndexController
         </body>
         </html>
         <?php
+            });
     }
 }
