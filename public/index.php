@@ -9,5 +9,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 Debug::enable();
 
+$request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
+
 $controller = new IndexController();
-echo $controller->doRun();
+echo $controller->doRun($request);
