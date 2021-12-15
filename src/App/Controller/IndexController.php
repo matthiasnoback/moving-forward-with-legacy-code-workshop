@@ -6,16 +6,17 @@ namespace App\Controller;
 
 use App\DB;
 use App\Output;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class IndexController
 {
-    public function doRun(): string
+    public function doRun(ServerRequestInterface $request): string
     {
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 
         header('Content-Type: text/html');
 
-        $username = $_GET['username'] ?? 'world';
+        $username = $request->getQueryParams()['username'] ?? 'world';
 
         return Output::capture(function () use ($environment, $username) {
 
