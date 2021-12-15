@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DB;
+use App\Output;
 
 final class IndexController
 {
-    public function doRun()
+    public function doRun(): string
     {
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 
         header('Content-Type: text/html');
 
-        $username = $_GET['username'] ?? 'world'; ?><html lang="en">
+        $username = $_GET['username'] ?? 'world';
+
+        return Output::capture(function () use ($environment, $username) {
+
+            ?><html lang="en">
         <body>
         <p>Environment: <?php echo htmlspecialchars($environment, ENT_QUOTES); ?></p>
         <p>Hello, <?php echo htmlspecialchars($username, ENT_QUOTES); ?>!</p>
@@ -31,5 +36,6 @@ final class IndexController
         </body>
         </html>
         <?php
+        });
     }
 }

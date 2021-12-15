@@ -10,4 +10,5 @@ require __DIR__ . '/../vendor/autoload.php';
 Debug::enable();
 
 $controller = new IndexController();
-$controller->doRun();
+$responseBody = $controller->doRun();
+echo $responseBody;
