@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-use App\Controller\IndexController;
+use App\RequestHandler;
 use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Symfony\Component\ErrorHandler\Debug;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 Debug::enable();
 
-$controller = new IndexController();
 $request = ServerRequestFactory::fromGlobals();
 
-$response = $controller->doRun($request);
-foreach ($response['headers'] as $header) {
-    header($header);
-}
-echo $response['body'];
+$handler = new RequestHandler();
+$response = $handler->handle($request);
+
+$emitter = new SapiEmitter();
+$emitter->emit($response);

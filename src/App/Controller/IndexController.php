@@ -11,15 +11,15 @@ use Psr\Http\Message\ServerRequestInterface;
 final class IndexController
 {
     /**
-     * @return array{body: string, headers: array<string>}
+     * @return array{body: string, headers: array<string,string>}
      */
     public function doRun(ServerRequestInterface $request): array
     {
         return Output::captureAndCollectHeaders(function (&$headers) use ($request): void {
             $environment = getenv('APPLICATION_ENV') ?: 'development';
 
-            $headers[] = 'Content-Type: text/html';
-            $headers[] = 'X-Special: test';
+            $headers['Content-Type'] = 'text/html';
+            $headers['X-Special'] = 'test';
 
             $username = $request->getQueryParams()['username'] ?? 'world';
 

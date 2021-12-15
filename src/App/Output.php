@@ -23,7 +23,7 @@ final class Output
     }
 
     /**
-     * @return array{body: string, headers: array<string>}
+     * @return array{body: string, headers: array<string,string>}
      */
     public static function captureAndCollectHeaders(callable $callable): array
     {
