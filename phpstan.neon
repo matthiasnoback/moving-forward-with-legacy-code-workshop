@@ -10,3 +10,9 @@ parameters:
         - rector.php
         - ecs.php
     reportUnmatchedIgnoredErrors: false
+    excludePaths:
+        - utils/PHPStan/tests/*/Fixtures/*
+
+rules:
+    - Utils\PHPStan\DynamicInstantiationRule
+    - Utils\PHPStan\NoExitRule

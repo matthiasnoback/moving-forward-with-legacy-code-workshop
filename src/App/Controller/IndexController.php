@@ -33,6 +33,6 @@ final class IndexController
         </html>
         <?php
 
-        exit;
+        return;
     }
 }

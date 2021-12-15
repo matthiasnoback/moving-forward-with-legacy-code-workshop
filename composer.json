@@ -8,7 +8,9 @@
         "psr-4": {
             "\\": "test/",
             "Utils\\Rector\\": "utils/rector/src",
-            "Utils\\Rector\\Tests\\": "utils/rector/tests"
+            "Utils\\Rector\\Tests\\": "utils/rector/tests",
+            "Utils\\PHPStan\\": "utils/PHPStan/src",
+            "Utils\\PHPStan\\Tests\\": "utils/PHPStan/tests"
         }
     },
     "require-dev": {
