@@ -6,15 +6,17 @@ use App\RequestHandler;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Symfony\Component\ErrorHandler\Debug;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 Debug::enable();
 
-$request = ServerRequestFactory::fromGlobals();
-
-$handler = new RequestHandler();
-$response = $handler->handle($request);
-
-$emitter = new SapiEmitter();
-$emitter->emit($response);
+// See https://docs.laminas.dev/laminas-httphandlerrunner/usage/
+$runner = new RequestHandlerRunner(
+    new RequestHandler(),
+    new SapiEmitter(),
+    [ServerRequestFactory::class, 'fromGlobals'],
+    fn (Throwable $throwable) => throw $throwable
+);
+$runner->run();
