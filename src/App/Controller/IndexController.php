@@ -10,23 +10,28 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class IndexController
 {
-    public function doRun(ServerRequestInterface $request): string
+    /**
+     * @return array{body: string, headers: array<string>}
+     */
+    public function doRun(ServerRequestInterface $request): array
     {
-        $environment = getenv('APPLICATION_ENV') ?: 'development';
+        return Output::captureAndCollectHeaders(function (&$headers) use ($request): void {
+            $environment = getenv('APPLICATION_ENV') ?: 'development';
 
-        header('Content-Type: text/html');
+            $headers[] = 'Content-Type: text/html';
+            $headers[] = 'X-Special: test';
 
-        $username = $request->getQueryParams()['username'] ?? 'world';
+            $username = $request->getQueryParams()['username'] ?? 'world';
 
-        return Output::capture(function () use ($environment, $username) {
-
-            ?><html lang="en">
+            ?>
+            <html lang="en">
         <body>
         <p>Environment: <?php echo htmlspecialchars($environment, ENT_QUOTES); ?></p>
         <p>Hello, <?php echo htmlspecialchars($username, ENT_QUOTES); ?>!</p>
         <form action="/" method="get">
             <label for="username">Your name:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username, ENT_QUOTES); ?>">
+            <input type="text" id="username" name="username"
+                   value="<?php echo htmlspecialchars($username, ENT_QUOTES); ?>">
             <button type="submit">Send</button>
         </form>
         <?php
@@ -35,8 +40,8 @@ final class IndexController
             var_dump($record);
         } ?>
         </body>
-        </html>
-        <?php
+            </html>
+            <?php
         });
     }
 }

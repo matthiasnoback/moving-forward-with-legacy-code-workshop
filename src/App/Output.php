@@ -23,7 +23,7 @@ final class Output
     }
 
     /**
-     * @return array{string,array<string,string>}
+     * @return array{body: string, headers: array<string>}
      */
     public static function captureAndCollectHeaders(callable $callable): array
     {
@@ -39,6 +39,6 @@ final class Output
 
         ob_end_clean();
 
-        return [$output, $headers];
+        return ['body' => $output,  'headers' => $headers];
     }
 }

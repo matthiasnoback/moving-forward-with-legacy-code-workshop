@@ -26,6 +26,7 @@ final class IndexTest extends PantherTestCase
         $responseText = $response->text();
         self::assertStringContainsString('Hello, world!', $responseText);
         self::assertStringContainsString('Environment: testing', $responseText);
+        self::assertEquals('test', $this->browser->getInternalResponse()->getHeader('X-Special'));
     }
 
     public function testHelloUser(): void
