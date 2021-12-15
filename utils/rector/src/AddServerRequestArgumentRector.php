@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Utils\Rector;
 
+use PhpParser\Node\Param;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
-use PHPStan\Type\ObjectType;
 use Psr\Http\Message\ServerRequestInterface;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -16,7 +18,7 @@ final class AddServerRequestArgumentRector extends AbstractRector
 {
     public function getNodeTypes(): array
     {
-        return [Node\Stmt\ClassMethod::class];
+        return [ClassMethod::class];
     }
 
     /**
@@ -36,10 +38,10 @@ final class AddServerRequestArgumentRector extends AbstractRector
             return null;
         }
 
-        $node->params[] = new Node\Param(
-            new Node\Expr\Variable('request'),
+        $node->params[] = new Param(
+            new Variable('request'),
             null,
-            new Node\Name\FullyQualified(ServerRequestInterface::class)
+            new FullyQualified(ServerRequestInterface::class)
         );
 
         return $node;

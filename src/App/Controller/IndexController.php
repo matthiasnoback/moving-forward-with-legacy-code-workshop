@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Psr\Http\Message\ServerRequestInterface;
 use App\DB;
 
 final class IndexController
 {
-    public function doRun()
+    public function doRun(ServerRequestInterface $request)
     {
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 
