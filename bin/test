@@ -2,7 +2,7 @@
 
 set -eu
 
-docker-compose up -d
+docker compose up -d
 
-docker-compose run --rm php vendor/bin/phpstan analyze
-docker-compose run --rm php vendor/bin/phpunit -vvv
+docker compose run --rm php vendor/bin/phpstan analyze
+docker compose run --rm php vendor/bin/phpunit -vvv
