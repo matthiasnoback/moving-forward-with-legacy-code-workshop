@@ -6,7 +6,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "\\": "test/"
+            "\\": "test/",
+            "Utils\\Rector\\": "utils/rector/src",
+            "Utils\\Rector\\Tests\\": "utils/rector/tests"
         }
     },
     "require-dev": {

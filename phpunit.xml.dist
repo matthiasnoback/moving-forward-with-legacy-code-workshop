@@ -4,11 +4,14 @@
     <testsuite name="Tests">
       <directory>./test</directory>
     </testsuite>
+    <testsuite name="rector">
+      <directory>utils/rector/tests</directory>
+    </testsuite>
   </testsuites>
   <extensions>
-    <extension class="Symfony\Component\Panther\ServerExtension" />
+    <extension class="Symfony\Component\Panther\ServerExtension"/>
   </extensions>
   <php>
-    <env name="APPLICATION_ENV" value="testing" />
+    <env name="APPLICATION_ENV" value="testing"/>
   </php>
 </phpunit>
