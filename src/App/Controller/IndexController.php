@@ -13,6 +13,7 @@ final class IndexController
         $environment = getenv('APPLICATION_ENV') ?: 'development';
 
         header('Content-Type: text/html');
+        header('X-Php-Env: ' . $environment);
 
         $username = $_GET['username'] ?? 'world'; ?><html lang="en">
         <body>
