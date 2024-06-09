@@ -4,10 +4,6 @@
     <testsuite name="Tests">
       <directory>./test</directory>
     </testsuite>
-    <testsuite name="Rector rules">
-      <directory>./utils/rector/tests</directory>
-      <exclude>utils/rector/tests/MinimalRector/MinimalRectorTest.php</exclude>
-    </testsuite>
   </testsuites>
   <extensions>
     <extension class="Symfony\Component\Panther\ServerExtension" />
