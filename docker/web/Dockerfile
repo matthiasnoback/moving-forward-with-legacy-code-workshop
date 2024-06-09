@@ -1,5 +1,5 @@
 # Build from official PHP image
-FROM php:8.0-cli-alpine
+FROM php:8.2-cli-alpine
 COPY php.ini ${PHP_INI_DIR}
 
 # Prepare for mounting the project's code as a volume
