@@ -13,7 +13,7 @@ final class Output
         $callable();
 
         $output = ob_get_contents();
-        if (! is_string($output)) {
+        if (!is_string($output)) {
             $output = '';
         }
 
@@ -33,7 +33,7 @@ final class Output
         $callable($headers);
 
         $output = ob_get_contents();
-        if (! is_string($output)) {
+        if (!is_string($output)) {
             $output = '';
         }
 

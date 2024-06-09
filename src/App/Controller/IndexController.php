@@ -18,10 +18,10 @@ final class IndexController
         $username = $_GET['username'] ?? 'world'; ?><html lang="en">
         <body>
         <p>Environment: <?php echo htmlspecialchars($environment, ENT_QUOTES); ?></p>
-        <p>Hello, <?php echo htmlspecialchars($username, ENT_QUOTES); ?>!</p>
+        <p>Hello, <?php echo htmlspecialchars((string) $username, ENT_QUOTES); ?>!</p>
         <form action="/" method="get">
             <label for="username">Your name:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username, ENT_QUOTES); ?>">
+            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars((string) $username, ENT_QUOTES); ?>">
             <button type="submit">Send</button>
         </form>
         <?php

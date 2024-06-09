@@ -25,7 +25,7 @@ final class DB
 
     public static function connection(): Connection
     {
-        if (self::$connection === null) {
+        if (!self::$connection instanceof Connection) {
             self::$connection = DriverManager::getConnection(
                 [
                     'driver' => 'pdo_sqlite',
