@@ -3,4 +3,4 @@
 set -eu
 
 echo "Turning off all Docker Compose services, removing their images and volumes"
-docker-compose down --volumes --rmi all
+docker compose down --volumes --rmi all

@@ -2,4 +2,4 @@
 
 set -eu
 
-docker-compose run --rm php vendor/bin/php-parse --var-dump "$@"
+docker compose run --rm php vendor/bin/php-parse --var-dump "$@"

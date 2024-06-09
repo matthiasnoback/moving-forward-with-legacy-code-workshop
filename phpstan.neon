@@ -9,4 +9,3 @@ parameters:
         - public
         - rector.php
         - ecs.php
-    reportUnmatchedIgnoredErrors: false
