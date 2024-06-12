@@ -49,14 +49,14 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        if (! str_ends_with($this->getName($node) ?? '', 'Controller')) {
+        if (!str_ends_with($this->getName($node) ?? '', 'Controller')) {
             return null;
         }
 
         $isModified = false;
         foreach ($node->getMethods() as $method) {
             $method = $this->processControllerMethod($method);
-            if ($method !== null) {
+            if ($method instanceof ClassMethod) {
                 $isModified = true;
             }
         }
