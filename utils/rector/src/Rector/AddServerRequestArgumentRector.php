@@ -55,6 +55,11 @@ CODE_SAMPLE
                 // There is already a parameter with type ServerRequestInterface
                 return null;
             }
+
+            if ($this->isName($param, 'request')) {
+                // There is already a parameter with name 'request'
+                return null;
+            }
         }
 
         $node->params[] = new Param(
