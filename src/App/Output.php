@@ -22,15 +22,12 @@ final class Output
         return $output;
     }
 
-    /**
-     * @return array{string,array<string,string>}
-     */
-    public static function captureAndCollectHeaders(callable $callable): array
+    public static function captureAndCollectHeaders(callable $callable): ControllerResponse
     {
         ob_start();
 
-        $headers = [];
-        $callable($headers);
+        $response = new ControllerResponse();
+        $callable($response);
 
         $output = ob_get_contents();
         if (!is_string($output)) {
@@ -38,7 +35,8 @@ final class Output
         }
 
         ob_end_clean();
+        $response->setContent($output);
 
-        return [$output, $headers];
+        return $response;
     }
 }

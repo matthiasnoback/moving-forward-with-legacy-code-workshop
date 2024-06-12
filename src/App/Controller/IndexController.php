@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\ControllerResponse;
 use App\DB;
 use App\Output;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class IndexController
 {
-    /**
-     * @return array{string, array<string,string>}
-     */
-    public function doRun(ServerRequestInterface $request): array
+    public function doRun(ServerRequestInterface $request): ControllerResponse
     {
-        return Output::captureAndCollectHeaders(function (array &$headers) use ($request) {
+        return Output::captureAndCollectHeaders(function (ControllerResponse $response) use ($request) {
             $environment = getenv('APPLICATION_ENV') ?: 'development';
 
-            $headers[] = 'Content-Type: text/html';
-            $headers[] = 'X-Php-Env: ' . $environment;
+            $response->addHeader('Content-Type: text/html');
+            $response->addHeader('X-Php-Env: ' . $environment);
 
             $username = $request->getQueryParams()['username'] ?? 'world'; ?><html lang="en">
             <body>
