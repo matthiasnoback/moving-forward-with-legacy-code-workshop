@@ -9,17 +9,18 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use Psr\Http\Message\ServerRequestInterface;
-use Rector\Rector\AbstractRector;
+use Rector\Rector\AbstractScopeAwareRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use function PHPStan\dumpType;
 
 /**
  * @see \Utils\Rector\Tests\Rector\AddServerRequestArgumentRector\AddServerRequestArgumentRectorTest
  */
-final class AddServerRequestArgumentRector extends AbstractRector
+final class AddServerRequestArgumentRector extends AbstractScopeAwareRector
 {
     public function getRuleDefinition(): RuleDefinition
     {
@@ -41,17 +42,20 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        // @todo select node type
         return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      */
-    public function refactor(Node $node): ?Node
+    public function refactorWithScope(Node $node, Scope $scope): ?Node
     {
+        if ($scope->isInClass() && !str_ends_with($scope->getClassReflection()->getName(), 'Controller')) {
+            return null;
+        }
+
         foreach ($node->params as $param) {
-            if ((new ObjectType(ServerRequestInterface::class))->isSuperTypeOf($this->getType($param))->yes()) {
+            if ($this->isObjectType($param, new ObjectType(ServerRequestInterface::class))) {
                 // There is already a parameter with type ServerRequestInterface
                 return null;
             }
