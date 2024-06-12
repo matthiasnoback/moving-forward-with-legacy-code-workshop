@@ -32,7 +32,5 @@ final class IndexController
         </body>
         </html>
         <?php
-
-        exit;
     }
 }
