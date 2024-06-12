@@ -16,8 +16,8 @@ final class IndexController
         return Output::captureAndCollectHeaders(function (ControllerResponse $response) use ($request) {
             $environment = getenv('APPLICATION_ENV') ?: 'development';
 
-            $response->addHeader('Content-Type: text/html');
-            $response->addHeader('X-Php-Env: ' . $environment);
+            $response->addHeader('Content-Type', 'text/html');
+            $response->addHeader('X-Php-Env', $environment);
 
             $username = $request->getQueryParams()['username'] ?? 'world'; ?><html lang="en">
             <body>

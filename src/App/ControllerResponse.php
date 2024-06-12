@@ -6,23 +6,23 @@ namespace App;
 final class ControllerResponse
 {
     /**
-     * @var array<int,string>
+     * @var array<string,string>
      */
     private array $headers = [];
 
     private string $content = '';
 
     /**
-     * @return array<int,string>
+     * @return array<string,string>
      */
     public function getHeaders(): array
     {
         return $this->headers;
     }
 
-    public function addHeader(string $header): void
+    public function addHeader(string $header, string $value): void
     {
-        $this->headers[] = $header;
+        $this->headers[$header] = $value;
     }
 
     public function setContent(string $content): void

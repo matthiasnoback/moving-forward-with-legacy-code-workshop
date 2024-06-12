@@ -14,7 +14,7 @@ $serverRequest = ServerRequestFactory::fromGlobals();
 
 $controller = new IndexController();
 $response = $controller->doRun($serverRequest);
-foreach ($response->getHeaders() as $header) {
-    header($header);
+foreach ($response->getHeaders() as $header => $value) {
+    header($header . ': ' . $value);
 }
 echo $response->getContent();
