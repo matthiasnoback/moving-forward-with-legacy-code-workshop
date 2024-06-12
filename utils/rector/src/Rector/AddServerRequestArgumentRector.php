@@ -53,28 +53,36 @@ CODE_SAMPLE
             return null;
         }
 
+        $isModified = false;
         foreach ($node->getMethods() as $method) {
-            foreach ($method->params as $param) {
-                if ($this->isObjectType($param, new ObjectType(ServerRequestInterface::class))) {
-                    // There is already a parameter with type ServerRequestInterface
-                    return null;
-                }
-
-                if ($this->isName($param, 'request')) {
-                    // There is already a parameter with name 'request'
-                    return null;
-                }
+            $method = $this->processControllerMethod($method);
+            if ($method !== null) {
+                $isModified = true;
             }
-
-            $method->params[] = new Param(
-                var: new Variable(name: 'request'),
-                type: new FullyQualified(ServerRequestInterface::class)
-            );
-
-            // Return the modified class
-            return $node;
         }
 
-        return null;
+        return $isModified ? $node : null;
+    }
+
+    public function processControllerMethod(ClassMethod $method): ?ClassMethod
+    {
+        foreach ($method->params as $param) {
+            if ($this->isObjectType($param, new ObjectType(ServerRequestInterface::class))) {
+                // There is already a parameter with type ServerRequestInterface
+                return null;
+            }
+
+            if ($this->isName($param, 'request')) {
+                // There is already a parameter with name 'request'
+                return null;
+            }
+        }
+
+        $method->params[] = new Param(
+            var: new Variable(name: 'request'),
+            type: new FullyQualified(ServerRequestInterface::class)
+        );
+
+        return $method;
     }
 }
