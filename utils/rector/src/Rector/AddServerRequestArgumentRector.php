@@ -8,19 +8,17 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\ClassMethod;
-use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ClassReflection;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Type\ObjectType;
 use Psr\Http\Message\ServerRequestInterface;
-use Rector\Rector\AbstractScopeAwareRector;
+use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Utils\Rector\Tests\Rector\AddServerRequestArgumentRector\AddServerRequestArgumentRectorTest
  */
-final class AddServerRequestArgumentRector extends AbstractScopeAwareRector
+final class AddServerRequestArgumentRector extends AbstractRector
 {
     public function getRuleDefinition(): RuleDefinition
     {
@@ -42,16 +40,19 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [ClassMethod::class];
+        return [Class_::class];
     }
 
     /**
-     * @param ClassMethod $node
+     * @param Class_ $node
      */
-    public function refactorWithScope(Node $node, Scope $scope): ?Node
+    public function refactor(Node $node): ?Node
     {
-        if ($scope->isInClass() && !str_ends_with($scope->getClassReflection()->getName(), 'Controller')) {
-            return null;
+        // TODO check if class is a controller
+
+        // TODO look for ClassMethod nodes
+        foreach ($node->stmts as $stmt) {
+
         }
 
         foreach ($node->params as $param) {
