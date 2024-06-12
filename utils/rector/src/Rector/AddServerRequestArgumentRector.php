@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\Type\ObjectType;
 use Psr\Http\Message\ServerRequestInterface;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -50,9 +51,8 @@ CODE_SAMPLE
     public function refactor(Node $node): ?Node
     {
         foreach ($node->params as $param) {
-            dump($this->getType($param));
-
-            if (false) {
+            if ((new ObjectType(ServerRequestInterface::class))->isSuperTypeOf($this->getType($param))->yes()) {
+                // There is already a parameter with type ServerRequestInterface
                 return null;
             }
         }
