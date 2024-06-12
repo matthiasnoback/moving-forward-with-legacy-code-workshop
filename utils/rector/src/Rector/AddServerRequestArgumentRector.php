@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Type\ObjectType;
 use Psr\Http\Message\ServerRequestInterface;
 use Rector\Rector\AbstractRector;
@@ -48,30 +49,32 @@ CODE_SAMPLE
      */
     public function refactor(Node $node): ?Node
     {
-        // TODO check if class is a controller
-
-        // TODO look for ClassMethod nodes
-        foreach ($node->stmts as $stmt) {
-
+        if (! str_ends_with($this->getName($node) ?? '', 'Controller')) {
+            return null;
         }
 
-        foreach ($node->params as $param) {
-            if ($this->isObjectType($param, new ObjectType(ServerRequestInterface::class))) {
-                // There is already a parameter with type ServerRequestInterface
-                return null;
+        foreach ($node->getMethods() as $method) {
+            foreach ($method->params as $param) {
+                if ($this->isObjectType($param, new ObjectType(ServerRequestInterface::class))) {
+                    // There is already a parameter with type ServerRequestInterface
+                    return null;
+                }
+
+                if ($this->isName($param, 'request')) {
+                    // There is already a parameter with name 'request'
+                    return null;
+                }
             }
 
-            if ($this->isName($param, 'request')) {
-                // There is already a parameter with name 'request'
-                return null;
-            }
+            $method->params[] = new Param(
+                var: new Variable(name: 'request'),
+                type: new FullyQualified(ServerRequestInterface::class)
+            );
+
+            // Return the modified class
+            return $node;
         }
 
-        $node->params[] = new Param(
-            var: new Variable(name: 'request'),
-            type: new FullyQualified(ServerRequestInterface::class)
-        );
-
-        return $node;
+        return null;
     }
 }
