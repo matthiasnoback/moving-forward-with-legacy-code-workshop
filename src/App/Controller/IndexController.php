@@ -5,32 +5,35 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DB;
+use App\Output;
 
 final class IndexController
 {
-    public function doRun()
+    public function doRun(): string
     {
-        $environment = getenv('APPLICATION_ENV') ?: 'development';
+        return Output::capture(function () {
+            $environment = getenv('APPLICATION_ENV') ?: 'development';
 
-        header('Content-Type: text/html');
-        header('X-Php-Env: ' . $environment);
+            header('Content-Type: text/html');
+            header('X-Php-Env: ' . $environment);
 
-        $username = $_GET['username'] ?? 'world'; ?><html lang="en">
-        <body>
-        <p>Environment: <?php echo htmlspecialchars($environment, ENT_QUOTES); ?></p>
-        <p>Hello, <?php echo htmlspecialchars((string) $username, ENT_QUOTES); ?>!</p>
-        <form action="/" method="get">
-            <label for="username">Your name:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars((string) $username, ENT_QUOTES); ?>">
-            <button type="submit">Send</button>
-        </form>
-        <?php
-        $result = DB::connection()->executeQuery('SELECT * FROM users');
-        foreach ($result->fetchAllAssociative() as $record) {
-            var_dump($record);
-        } ?>
-        </body>
-        </html>
-        <?php
+            $username = $_GET['username'] ?? 'world'; ?><html lang="en">
+            <body>
+            <p>Environment: <?php echo htmlspecialchars($environment, ENT_QUOTES); ?></p>
+            <p>Hello, <?php echo htmlspecialchars((string) $username, ENT_QUOTES); ?>!</p>
+            <form action="/" method="get">
+                <label for="username">Your name:</label>
+                <input type="text" id="username" name="username" value="<?php echo htmlspecialchars((string) $username, ENT_QUOTES); ?>">
+                <button type="submit">Send</button>
+            </form>
+            <?php
+            $result = DB::connection()->executeQuery('SELECT * FROM users');
+            foreach ($result->fetchAllAssociative() as $record) {
+                var_dump($record);
+            } ?>
+            </body>
+            </html>
+            <?php
+        });
     }
 }

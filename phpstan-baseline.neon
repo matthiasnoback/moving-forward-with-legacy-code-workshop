@@ -1,7 +1,0 @@
-parameters:
-	ignoreErrors:
-		-
-			message: "#^Method App\\\\Controller\\\\IndexController\\:\\:doRun\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/App/Controller/IndexController.php
-
