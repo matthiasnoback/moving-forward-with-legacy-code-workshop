@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Utils\Rector\Tests\Rector\AddServerRequestArgumentRector;
 
+use Iterator;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
 final class AddServerRequestArgumentRectorTest extends AbstractRectorTestCase
@@ -16,7 +17,7 @@ final class AddServerRequestArgumentRectorTest extends AbstractRectorTestCase
         $this->doTestFile($filePath);
     }
 
-    public static function provideData(): \Iterator
+    public static function provideData(): Iterator
     {
         return self::yieldFilesFromDirectory(__DIR__ . '/Fixture');
     }

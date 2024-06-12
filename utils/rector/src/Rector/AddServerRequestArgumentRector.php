@@ -8,10 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\ClassMethod;
 use Psr\Http\Message\ServerRequestInterface;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use function PHPStan\dumpType;
 
 /**
  * @see \Utils\Rector\Tests\Rector\AddServerRequestArgumentRector\AddServerRequestArgumentRectorTest
@@ -39,14 +41,22 @@ CODE_SAMPLE
     public function getNodeTypes(): array
     {
         // @todo select node type
-        return [\PhpParser\Node\Stmt\ClassMethod::class];
+        return [ClassMethod::class];
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\ClassMethod $node
+     * @param ClassMethod $node
      */
     public function refactor(Node $node): ?Node
     {
+        foreach ($node->params as $param) {
+            dump($this->getType($param));
+
+            if (false) {
+                return null;
+            }
+        }
+
         $node->params[] = new Param(
             var: new Variable(name: 'request'),
             type: new FullyQualified(ServerRequestInterface::class)
