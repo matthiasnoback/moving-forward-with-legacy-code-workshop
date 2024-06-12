@@ -13,4 +13,8 @@ Debug::enable();
 $serverRequest = ServerRequestFactory::fromGlobals();
 
 $controller = new IndexController();
-echo $controller->doRun($serverRequest);
+[$content, $headers] = $controller->doRun($serverRequest);
+foreach ($headers as $header) {
+    header($header);
+}
+echo $content;

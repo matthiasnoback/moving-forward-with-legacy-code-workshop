@@ -10,13 +10,16 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class IndexController
 {
-    public function doRun(ServerRequestInterface $request): string
+    /**
+     * @return array{string, array<string,string>}
+     */
+    public function doRun(ServerRequestInterface $request): array
     {
-        return Output::capture(function () use ($request) {
+        return Output::captureAndCollectHeaders(function (array &$headers) use ($request) {
             $environment = getenv('APPLICATION_ENV') ?: 'development';
 
-            header('Content-Type: text/html');
-            header('X-Php-Env: ' . $environment);
+            $headers[] = 'Content-Type: text/html';
+            $headers[] = 'X-Php-Env: ' . $environment;
 
             $username = $request->getQueryParams()['username'] ?? 'world'; ?><html lang="en">
             <body>
